@@ -17,19 +17,22 @@ Route::get('/redirect', 'UserController@redirect');
 
 Route::post('/user/update/{id}', 'UserController@update');
 
-// Article Routes
 Route::get('/', 'ArticleController@index');
-
-Route::get('/articles/create', 'ArticleController@create');
-Route::post('/articles/create', 'ArticleController@store');
-
-Route::get('/articles/detail/{id}', 'ArticleController@edit');
-Route::put('/articles/detail/{id}', 'ArticleController@update');
-
-Route::get('/articles/{id}/delete', 'ArticleController@destroy');
+Route::get('/articles/{id}/detail', 'ArticleController@show');
 
 //Category Routes
 Route::get('/categories', 'CategoryController@index');
+
+Route::group(['middleware' => 'auth'], function () {
+    // Article Routes
+    Route::get('/articles/create', 'ArticleController@create');
+    Route::post('/articles/create', 'ArticleController@store');
+
+    Route::get('/articles/{id}', 'ArticleController@edit');
+    Route::put('/articles/{id}', 'ArticleController@update');
+
+    Route::get('/articles/{id}/delete', 'ArticleController@destroy');
+});
 
 
 Auth::routes();
